@@ -100,10 +100,10 @@ line(blue,[ indraprastha
 %using any line
 findRoute(X,Y):-findRoute(X,Y,[]).
 
-%Finding a route from X to Y not using the lines in L
-findRoute(X,Y,Lines):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Y,Stations),display('from '),display(X),display(' take '),display(Line),display(' to '),display(Y).
+%Finding a route from X to Y not using the lines specified in Lines
+findRoute(X,Y,Lines):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Y,Stations),format('from ~w take ~w line to ~w\n', [X,Line,Y]).
 
-%An indirect route from X to Y
-findRoute(X,Y,Lines):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Intermediate,Stations),findRoute(Intermediate,Y,[Line|Lines]),display('from '),display(X),display(' take '),display(Line),display(' to '),display(Y).
+%An indirect route from X to Y, not using the lines specified in Lines
+findRoute(X,Y,Lines):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Intermediate,Stations),findRoute(Intermediate,Y,[Line|Lines]),format('from ~w take ~w line to ~w\n', [X,Line,Intermediate]).
 
 
