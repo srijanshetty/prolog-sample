@@ -2,8 +2,8 @@
 %% Due on: 30 Sep 2013 (Monday) before midnight.
 
 %% Please fill the following details
-%% Full Name:
-%% Roll No:
+%% Full Name: Srijan R Shetty
+%% Roll No: 11727
 
 %% Given below is the metro lines of New Delhi. Write a function
 %% that given any two metro station prints out the route to take
@@ -23,32 +23,6 @@
 %% words think of this red, blue and green line as a sample input to your
 %% program.
 
-
-
-line(red,
-	[ rithala,
-          rohini-east,
-          rohini-west,
-          pitam-pura,
-          kohat-enclave,
-          netaji-subash-place,
-          keshav-puram,
-          kanhaiya-nagar,
-          indralok,
-          shastri-nagar,
-          pratap-nagar,
-          pul-bangesh,
-          tiz-hazari,
-          kashmiri-gate,
-          shastri-park,
-          seelam-pur,
-          welcome,
-          shahdara,
-          mansarovar-park,
-          jhilmil,
-          dilshad-garden
-        ]
-    ).
 line(yellow,[ vishwa-vidayala
             , vidhan-sabha
             , civil-lines
@@ -95,19 +69,47 @@ line(blue,[ indraprastha
           , sector-9-dwarka
           ]).
 
-line(black, [kanpur,mumbai]).
+line(red,
+	[ rithala,
+          rohini-east,
+          rohini-west,
+          pitam-pura,
+          kohat-enclave,
+          netaji-subash-place,
+          keshav-puram,
+          kanhaiya-nagar,
+          indralok,
+          shastri-nagar,
+          pratap-nagar,
+          pul-bangesh,
+          tiz-hazari,
+          kashmiri-gate,
+          shastri-park,
+          seelam-pur,
+          welcome,
+          shahdara,
+          mansarovar-park,
+          jhilmil,
+          dilshad-garden
+        ]
+    ).
 
-%A Route using a single line
-%Finding the route from X to Y is the same as finding a route from X to Y
-%using any line
+line(black, [kanpur,dwarka,mumbai]).
+
+%change the input from findRoute/2 to findroute/4 with the unallowed routes set
+%to [] and currentToure to []
 findRoute(X,Y):-findRoute(X,Y,[],[]).
 
-%Finding a route from X to Y not using the lines specified in Lines
+%%%%%%%%%%%%%%% DIRECT ROUTE %%%%%%%%%%%%%%
+%Firstly we consider a route from X to Y not using any of the Lines specified in
+%Lines and using only a sinlge line
 findRoute(X,Y,Lines,Output):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Y,Stations),append(Output,[[X,Line,Y]],NewOutput),print(NewOutput).
 
-%An indirect route from X to Y, not using the lines specified in Lines
+%%%%%%%%%%%%%% INDIRECT ROUTE %%%%%%%%%%%%%
+%Next we consider an indirect route from X to Y not using any of the routes
+%specified in Lines via an intermediate station Intermediate
 findRoute(X,Y,Lines,Output):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Intermediate,Stations),\+ X=Intermediate,append(Output,[[X,Line,Intermediate]],NewOutput),findRoute(Intermediate,Y,[Line|Lines],NewOutput).
 
-%prints the output
+%prints a formatted output
 print([H|T]):-format('from ~w take ~w line to ~w\n', H),print(T).
 
