@@ -96,6 +96,8 @@ line(red,
 
 line(black, [kanpur,dwarka,mumbai]).
 
+line(grey, [kanpur,new-delhi]).
+
 %change the input from findRoute/2 to findroute/4 with the unallowed routes set
 %to [] and currentToure to []
 findRoute(X,Y):-findRoute(X,Y,[],[]).
