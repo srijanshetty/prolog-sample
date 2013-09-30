@@ -95,15 +95,19 @@ line(blue,[ indraprastha
           , sector-9-dwarka
           ]).
 
+line(black, [kanpur,mumbai]).
+
 %A Route using a single line
 %Finding the route from X to Y is the same as finding a route from X to Y
 %using any line
-findRoute(X,Y):-findRoute(X,Y,[]).
+findRoute(X,Y):-findRoute(X,Y,[],[]).
 
 %Finding a route from X to Y not using the lines specified in Lines
-findRoute(X,Y,Lines):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Y,Stations),format('from ~w take ~w line to ~w\n', [X,Line,Y]).
+findRoute(X,Y,Lines,Output):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Y,Stations),append(Output,[[X,Line,Y]],NewOutput),print(NewOutput).
 
 %An indirect route from X to Y, not using the lines specified in Lines
-findRoute(X,Y,Lines):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Intermediate,Stations),findRoute(Intermediate,Y,[Line|Lines]),format('from ~w take ~w line to ~w\n', [X,Line,Intermediate]).
+findRoute(X,Y,Lines,Output):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Intermediate,Stations),\+ X=Intermediate,append(Output,[[X,Line,Intermediate]],NewOutput),findRoute(Intermediate,Y,[Line|Lines],NewOutput).
 
+%prints the output
+print([H|T]):-format('from ~w take ~w line to ~w\n', H),print(T).
 
