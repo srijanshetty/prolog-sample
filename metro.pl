@@ -110,8 +110,9 @@ findRoute(X,Y,Lines,Output):-line(Line,Stations),\+ member(Line,Lines),member(X,
 %%%%%%%%%%%%%% INDIRECT ROUTE %%%%%%%%%%%%%
 %Next we consider an indirect route from X to Y not using any of the routes
 %specified in Lines via an intermediate station Intermediate
-findRoute(X,Y,Lines,Output):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Intermediate,Stations),\+ X=Intermediate,append(Output,[[X,Line,Intermediate]],NewOutput),findRoute(Intermediate,Y,[Line|Lines],NewOutput).
+findRoute(X,Y,Lines,Output):-line(Line,Stations),\+ member(Line,Lines),member(X,Stations),member(Intermediate,Stations),X\=Intermediate,Intermediate\=Y,append(Output,[[X,Line,Intermediate]],NewOutput),findRoute(Intermediate,Y,[Line|Lines],NewOutput).
 
 %prints a formatted output
+print([]).
 print([H|T]):-format('from ~w take ~w line to ~w\n', H),print(T).
 
